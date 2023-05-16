@@ -9,7 +9,7 @@ import getCurrentUser from './actions/getCurrentUser';
 import RentModal from './components/modals/RentModal';
 
 export const metadata = {
-  title: 'AirBnB',
+  title: 'AirBnB - Tatil Evleri ve Kiralık Konutlar',
   description:
     '191 ülkedeki yerel ev sahipleriyle birlikte kalmak için benzersiz yerler bulun. Airbnb ile her yere ait olun.',
 };

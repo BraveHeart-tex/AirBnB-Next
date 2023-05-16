@@ -30,8 +30,8 @@ const Button = ({
     rounded-lg
     hover: opacity-80
     w-full
-    ${outline ? 'bg-white' : 'bg-rose-500'}
-    ${outline ? 'border-black' : 'border-rose-500'}
+    ${outline ? 'bg-white' : 'bg-rose-600'}
+    ${outline ? 'border-black' : 'border-rose-600'}
     ${outline ? 'text-black' : 'text-white'}
     ${small ? 'py-1' : 'py-3'}
     ${small ? 'text-sm' : 'text-md'}
