@@ -57,7 +57,7 @@ const LoginModal = () => {
     <div className='flex flex-col gap-4'>
       <Heading
         title={"Airbnb'ye hoş geldiniz"}
-        subTitle='Hesabınızı oluşturun'
+        subTitle='Hesabınıza giriş yapın!'
       />
       <Input
         id='email'
@@ -79,6 +79,11 @@ const LoginModal = () => {
     </div>
   );
 
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const footerContent = (
     <div className='flex flex-col gap-4 mt-3'>
       <hr />
@@ -98,7 +103,7 @@ const LoginModal = () => {
         <div className='justify-center flex flex-row items-center gap-2'>
           <div>Hesabınız yok mu? </div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggle}
             className='text-neutral-800 cursor-pointer hover:underline'
           >
             Kaydolun{' '}

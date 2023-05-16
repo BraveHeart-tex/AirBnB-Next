@@ -7,6 +7,7 @@ import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
+import useRentModal from '@/app/hooks/useRentModal';
 
 interface IUserMenuProps {
   currentUser?: SafeUser | null;
@@ -15,19 +16,26 @@ interface IUserMenuProps {
 const UserMenu = ({ currentUser }: IUserMenuProps) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const rentModal = useRentModal();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         <div
-          onClick={() => {
-            console.log('clicked');
-          }}
+          onClick={() => onRent()}
           className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer'
         >
           Evinizi Airbnb&apos;ye ekleyin
@@ -51,7 +59,7 @@ const UserMenu = ({ currentUser }: IUserMenuProps) => {
                 <MenuItem onClick={() => {}} label='Favorilerim' />
                 <MenuItem onClick={() => {}} label='Rezervasyonlarım' />
                 <MenuItem onClick={() => {}} label='Evlerim' />
-                <MenuItem onClick={() => {}} label="Evimi Airbnb'ye ekle" />
+                <MenuItem onClick={onRent} label="Evimi Airbnb'ye ekle" />
                 <hr />
                 <MenuItem onClick={() => signOut()} label='Oturumu kapat' />
               </>
