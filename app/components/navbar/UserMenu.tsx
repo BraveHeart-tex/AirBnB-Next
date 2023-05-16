@@ -4,8 +4,17 @@ import Avatar from '../Avatar';
 import { useCallback, useState } from 'react';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
-const UserMenu = () => {
+import useLoginModal from '@/app/hooks/useLoginModal';
+import { signOut } from 'next-auth/react';
+import { SafeUser } from '@/app/types';
+
+interface IUserMenuProps {
+  currentUser?: SafeUser | null;
+}
+
+const UserMenu = ({ currentUser }: IUserMenuProps) => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleOpen = useCallback(() => {
@@ -36,10 +45,22 @@ const UserMenu = () => {
       {isOpen && (
         <div className='absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm'>
           <div className='flex flex-col cursor-pointer'>
-            <>
-              <MenuItem onClick={() => {}} label='Giriş yap' />
-              <MenuItem onClick={registerModal.onOpen} label='Kayıt ol' />
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem onClick={() => {}} label='Gezilerim' />
+                <MenuItem onClick={() => {}} label='Favorilerim' />
+                <MenuItem onClick={() => {}} label='Rezervasyonlarım' />
+                <MenuItem onClick={() => {}} label='Evlerim' />
+                <MenuItem onClick={() => {}} label="Evimi Airbnb'ye ekle" />
+                <hr />
+                <MenuItem onClick={() => signOut()} label='Oturumu kapat' />
+              </>
+            ) : (
+              <>
+                <MenuItem onClick={loginModal.onOpen} label='Giriş yap' />
+                <MenuItem onClick={registerModal.onOpen} label='Kayıt ol' />
+              </>
+            )}
           </div>
         </div>
       )}
