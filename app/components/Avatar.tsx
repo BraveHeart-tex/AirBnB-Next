@@ -1,14 +1,18 @@
 'use client';
 import Image from 'next/image';
 
-const Avatar = () => {
+interface IAvatarProps {
+  src: string | null | undefined;
+}
+
+const Avatar = ({ src }: IAvatarProps) => {
   return (
     <div>
       <Image
         className='rounded-full'
         height={30}
         width={30}
-        src='/images/placeholder.jpeg'
+        src={src || '/images/placeholder.jpeg'}
         alt='Avatar'
       />
     </div>

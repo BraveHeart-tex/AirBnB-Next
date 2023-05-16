@@ -55,7 +55,10 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
-      <Heading title={"Airbnb'ye hoş geldiniz"} subTitle='Hesabını oluştur' />
+      <Heading
+        title={"Airbnb'ye hoş geldiniz"}
+        subTitle='Hesabınızı oluşturun'
+      />
       <Input
         id='email'
         label='Email'
@@ -81,24 +84,24 @@ const LoginModal = () => {
       <hr />
       <Button
         outline
-        label={'Google ile devam et'}
+        label={'Google hesabınız ile oturum açın'}
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => signIn('google')}
       />
       <Button
         outline
-        label={'Github ile devam et'}
+        label={'Github hesabınız ile oturum açın'}
         icon={AiFillGithub}
-        onClick={() => {}}
+        onClick={() => signIn('github')}
       />
       <div className='text-neutral-500 text-center mt-4 font-light'>
         <div className='justify-center flex flex-row items-center gap-2'>
-          <div>Hesabınız var mı? </div>
+          <div>Hesabınız yok mu? </div>
           <div
             onClick={registerModal.onClose}
             className='text-neutral-800 cursor-pointer hover:underline'
           >
-            Giriş yap{' '}
+            Kaydolun{' '}
           </div>
         </div>
       </div>
@@ -110,7 +113,7 @@ const LoginModal = () => {
       <Modal
         disabled={isLoading}
         isOpen={loginModal.isOpen}
-        title='Oturum açın ve kaydolun'
+        title='Oturum açın veya kaydolun'
         actionLabel='Oturum aç'
         onClose={loginModal.onClose}
         onSubmit={handleSubmit(onSubmit)}

@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
-import { MouseEvent, useCallback, useState } from 'react';
+import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import Modal from './Modal';
@@ -11,6 +11,7 @@ import Heading from '../Heading';
 import Input from '../Inputs/Input';
 import { toast } from 'react-hot-toast';
 import Button from '../Button';
+import { signIn } from 'next-auth/react';
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -48,7 +49,10 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
-      <Heading title={"Airbnb'ye hoş geldin"} subTitle='Hesabını oluştur' />
+      <Heading
+        title={"Airbnb'ye hoş geldiniz"}
+        subTitle='Hesabınızı oluşturun'
+      />
       <Input
         id='email'
         label='Email'
@@ -82,15 +86,15 @@ const RegisterModal = () => {
       <hr />
       <Button
         outline
-        label={'Google ile devam et'}
+        label={'Google hesabınız ile oturum açın'}
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => signIn('google')}
       />
       <Button
         outline
-        label={'Github ile devam et'}
+        label={'Github hesabınız ile oturum açın'}
         icon={AiFillGithub}
-        onClick={() => {}}
+        onClick={() => signIn('github')}
       />
       <div className='text-neutral-500 text-center mt-4 font-light'>
         <div className='justify-center flex flex-row items-center gap-2'>
