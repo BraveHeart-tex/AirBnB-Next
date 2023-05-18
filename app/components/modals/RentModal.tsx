@@ -6,11 +6,15 @@ import useRentModal from '@/app/hooks/useRentModal';
 import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../Inputs/CategoryInput';
-import { FieldValues, useForm } from 'react-hook-form';
+import { SubmitHandler, FieldValues, useForm } from 'react-hook-form';
 import CountrySelect, { CountrySelectValue } from '../Inputs/CountrySelect';
 import dynamic from 'next/dynamic';
 import Counter from '../Inputs/Counter';
 import ImageUpload from '../Inputs/ImageUpload';
+import Input from '../Inputs/Input';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 enum STEPS {
   CATEGORY = 0,
@@ -22,6 +26,8 @@ enum STEPS {
 }
 
 const RentModal = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
 
@@ -75,6 +81,30 @@ const RentModal = () => {
 
   const onNext = () => {
     setStep((value) => value + 1);
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (step !== STEPS.PRICE) {
+      return onNext();
+    }
+
+    setIsLoading(true);
+
+    axios
+      .post('/api/listings', data)
+      .then(() => {
+        toast.success('İlanınız başarıyla yaratıldı!');
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        rentModal.onClose();
+      })
+      .catch(() => {
+        toast.error('Bir hata oluştu!');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const actionLabel = useMemo(() => {
@@ -165,7 +195,7 @@ const RentModal = () => {
     bodyContent = (
       <div className='flex flex-col gap-8'>
         <Heading
-          title={'Eviniz fotoğrafını ekleyin'}
+          title={'Evinizin fotoğrafını ekleyin'}
           subTitle={'Misafirlere evinizin nasıl göründüğünü gösterin!'}
         />
         <ImageUpload
@@ -176,11 +206,59 @@ const RentModal = () => {
     );
   }
 
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title={'Evinizi nasıl tarif edersiniz?'}
+          subTitle='Kısa ve öz her zaman iyidir!'
+        />
+        <Input
+          id={'title'}
+          label={'Başlık'}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        <Input
+          id={'description'}
+          label={'Açıklama'}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title={'Şimdi, fiyatınızı belirleyin'}
+          subTitle={'Eviniz için günlük ne kadar ücret alıyorsunuz?'}
+        />
+        <Input
+          id={'price'}
+          label={'Fiyat'}
+          formatPrice
+          type='number'
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
   return (
     <Modal
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
-      onSubmit={onNext}
+      onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? rentModal.onClose : onBack}
