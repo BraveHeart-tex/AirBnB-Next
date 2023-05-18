@@ -47,6 +47,9 @@ const RentModal = () => {
 
   const category = watch('category');
   const location = watch('location');
+  const guestCount = watch('guestCount');
+  const roomCount = watch('roomCount');
+  const bathroomCount = watch('bathroomCount');
 
   const Map = useMemo(
     () =>
@@ -132,7 +135,26 @@ const RentModal = () => {
           title={'Eviniz hakkında basit bilgiler verin'}
           subTitle='Evinizde ne gibi olanaklar var?'
         />
-        <Counter />
+        <Counter
+          title={'Misafir sayısı'}
+          subtitle={'En fazla kaç kişiye ev sahipliği yapmak istiyorsunuz?'}
+          value={guestCount}
+          onChange={(value) => setCustomValue('guestCount', value)}
+        />
+        <hr />
+        <Counter
+          title={'Oda sayısı'}
+          subtitle={'Evinizde kaç oda var?'}
+          value={roomCount}
+          onChange={(value) => setCustomValue('roomCount', value)}
+        />
+        <hr />
+        <Counter
+          title={'Banyo?'}
+          subtitle={'Evinizde kaç adet banyo var?'}
+          value={bathroomCount}
+          onChange={(value) => setCustomValue('bathroomCount', value)}
+        />
       </div>
     );
   }
