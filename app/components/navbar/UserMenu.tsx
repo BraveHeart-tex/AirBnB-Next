@@ -62,7 +62,10 @@ const UserMenu = ({ currentUser }: IUserMenuProps) => {
                   label='Gezilerim'
                 />
                 <MenuItem onClick={() => {}} label='Favorilerim' />
-                <MenuItem onClick={() => {}} label='Rezervasyonlarım' />
+                <MenuItem
+                  onClick={() => router.push('/reservations')}
+                  label='Rezervasyonlarım'
+                />
                 <MenuItem onClick={() => {}} label='Evlerim' />
                 <MenuItem onClick={onRent} label="Evimi Airbnb'ye ekle" />
                 <hr />

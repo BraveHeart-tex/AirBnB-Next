@@ -37,7 +37,9 @@ const RegisterModal = () => {
     axios
       .post('/api/auth/register', data)
       .then(() => {
+        toast.success('Kayıt işlemi başarılı. Lütfen oturum açın.');
         registerModal.onClose();
+        loginModal.onOpen();
       })
       .catch((error) => {
         toast.error(
