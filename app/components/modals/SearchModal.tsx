@@ -89,16 +89,16 @@ const SearchModal = () => {
 
     router.push(url);
   }, [
-    bathroomCount,
-    dateRange,
-    guestCount,
-    location,
-    onNext,
-    params,
-    roomCount,
-    router,
-    searchModal,
     step,
+    searchModal,
+    location,
+    router,
+    guestCount,
+    roomCount,
+    dateRange,
+    onNext,
+    bathroomCount,
+    params,
   ]);
 
   const actionLabel = useMemo(() => {
